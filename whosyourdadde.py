@@ -4,11 +4,7 @@ from whosyourdad import whosyourdad
 from waitress import serve
 
 app = Flask(__name__)
-
-def htmlify(consolestring):
-    consolestring = consolestring.replace("\n\n", "</p><p>")
-    consolestring = consolestring.strip("\n")
-    consolestring = "<p>" + consolestring + "</p>"
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.route('/', methods= ["GET", "POST"])
 def getdad():
@@ -23,4 +19,4 @@ def getdad():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    serve(app, host='0.0.0.0', port=5000)
+    serve(app, host='0.0.0.0', port=80)

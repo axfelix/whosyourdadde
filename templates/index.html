@@ -5,7 +5,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type=text/javascript>
             $(function() {
-              $('a#dadbutton').bind('click', function() {
+              $('#dadbutton').click(function() {
                 $.post('/', {  
                   name: $('#name').val(),
                 }, function(response) {
@@ -26,7 +26,7 @@
                 <input id="name" type="text" size="40" value="james bennet nyt"/>
                 <br/>
                 <br/>
-                <a href=# id='dadbutton'><button class='btn btn-danger'>Who's their dad?</button></a>
+                <button id='dadbutton' class='btn btn-danger'>Who's their dad?</button>
             </form>
             <br>
             <div id='result'></div>

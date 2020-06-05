@@ -4,7 +4,7 @@ from google import google
 from wikidata.client import Client
 client = Client()
 
-def whosyourdad(person):
+def whosyourdad(person, cli=False):
     search_results = google.search(person, 1)
     for result in search_results:
         if "wikipedia.org" in result.link:
@@ -32,12 +32,16 @@ def whosyourdad(person):
                 s = requests.get("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=" + dadname)
                 firstkey = next(iter(s.json()['query']['pages']))
                 sins_of_father = s.json()['query']['pages'][firstkey]['extract']
-                return("\nTheir daddy is " + dadname + "\n\n" + dadlink + "\n\n" + sins_of_father + "\n")
+
+                if cli == False:
+                    return("Their daddy is " + dadname + ".<br/><br/><a href='" + dadlink + "'>" + dadlink + "</a><br/><br/>" + sins_of_father)
+                return("\nTheir daddy is " + dadname + "\n" + dadlink + "\n" + sins_of_father + "\n")
+
             except:
                 return("Their dad wasn't famous. Good for them.")
 
     return("Their dad wasn't famous. Good for them.")
 
 if __name__ == "__main__":
-    dad = whosyourdad(sys.argv[1])
+    dad = whosyourdad(sys.argv[1], cli=True)
     print(dad)
