@@ -1,14 +1,20 @@
 import requests
 import sys
-from google import google
+from googleapiclient.discovery import build
+from config import *
 from wikidata.client import Client
 client = Client()
 
+def google_query(query, api_key, cse_id, **kwargs):
+    query_service = build("customsearch", "v1", developerKey=api_key)
+    query_results = query_service.cse().list(q=query, cx=cse_id, **kwargs).execute()
+    return query_results['items']
+
 def whosyourdad(person, cli=False):
-    search_results = google.search(person, 1)
+    search_results = google_query(person, keys["api_key"], keys["cse_id"])
     for result in search_results:
-        if "wikipedia.org" in result.link:
-            wikiname = result.name.split(" - ")[0]
+        if "wikipedia.org" in result['link']:
+            wikiname = result['title'].split(" - ")[0]
             wikiname = wikiname.replace(" ", "_")
 
             sparql_query = """
@@ -35,7 +41,7 @@ def whosyourdad(person, cli=False):
 
                 if cli == False:
                     return("Their daddy is " + dadname + ".<br/><br/><a href='" + dadlink + "'>" + dadlink + "</a><br/><br/>" + sins_of_father)
-                return("\nTheir daddy is " + dadname + "\n" + dadlink + "\n" + sins_of_father + "\n")
+                return("\nTheir daddy is " + dadname + "\n\n" + dadlink + "\n\n" + sins_of_father + "\n")
 
             except:
                 return("Their dad wasn't famous. Good for them.")

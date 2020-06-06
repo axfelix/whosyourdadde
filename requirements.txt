@@ -1,4 +1,4 @@
 waitress
 flask
 Wikidata
-Google-Search-API
+google-api-python-client
