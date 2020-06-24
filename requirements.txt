@@ -2,3 +2,4 @@ waitress
 flask
 Wikidata
 google-api-python-client
+oauth2client
